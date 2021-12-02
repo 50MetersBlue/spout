@@ -265,4 +265,22 @@ abstract class WriterAbstract implements WriterInterface
             $fileSystemHelper->deleteFile($this->outputFilePath);
         }
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function merge($start, $end)
+    {
+        // TODO: Implement merge() method.
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setColumnWidth($colmun, $width)
+    {
+        // TODO: Implement setColumnWidth() method.
+        return $this;
+    }
 }

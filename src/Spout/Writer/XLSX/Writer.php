@@ -47,4 +47,25 @@ class Writer extends WriterMultiSheetsAbstract
 
         return $this;
     }
+
+    /* @desc merge two cells
+     * @param string $start starting cell,e.g. "A1"
+     * @param string $end ending cell,e.g. "B2"
+     * @return $this
+     */
+    public function merge($start, $end)
+    {
+        $this->addMergeToWriter($start,$end);
+        return $this;
+    }
+    /* @desc set column's width
+     * @param string $colmun column's name,e.g. "A","B"
+     * @param number $width column's width,e.g. 100,100.1
+     * @return $this
+     */
+    public function setColumnWidth($colmun, $width)
+    {
+        $this->addColumnWidthToWriter($colmun,$width);
+        return $this;
+    }
 }

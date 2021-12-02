@@ -38,4 +38,16 @@ interface WorksheetManagerInterface
      * @return void
      */
     public function close(Worksheet $worksheet);
+
+    /* @desc merge two cells
+     * @param string $start starting cell,e.g. "A1","B2","C3"
+     * @param string $end ending cell,e.g. "A1","B2","C3"
+     */
+    public function merge(Worksheet $worksheet,$start,$end);
+
+    /* @desc set column's width
+     * @param string $column colunm's name,e.g. "A1","B2","C3"
+     * @param int $width columns's width,e.g. 100,123.456
+     */
+    public function setColumnWidth(Worksheet $worksheet,$column,$width);
 }

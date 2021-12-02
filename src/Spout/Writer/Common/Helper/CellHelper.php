@@ -43,4 +43,24 @@ class CellHelper
 
         return self::$columnIndexToColumnLettersCache[$originalColumnIndex];
     }
+
+    /* @desc get index based on column's name
+     * @param string $column column's name,e.g. "A","AZ","EE"
+     * @return int
+     */
+    public static function getIndexByColumn($column) {
+        $column = \strtoupper($column);
+        $index = 0;
+        $len  = \mb_strlen($column);
+        $start = \ord('A')-1;
+        $k = 0;
+        for($i=$len;$i>0;$i--) {
+            $pos = \ord($column[$k]) - $start;
+            $index += $pos * \pow(26,$i-1);
+            $k++;
+        }
+
+        return $index;
+    }
+
 }

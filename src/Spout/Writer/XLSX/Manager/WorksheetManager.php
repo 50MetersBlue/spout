@@ -63,6 +63,12 @@ EOD;
     /** @var InternalEntityFactory Factory to create entities */
     private $entityFactory;
 
+    /* @var array cells need to be merged */
+    protected $merge = [];
+
+    /* @var array column's width */
+    protected $columnWidth = [];
+
     /**
      * WorksheetManager constructor.
      *
@@ -293,8 +299,59 @@ EOD;
             return;
         }
 
+
         \fwrite($worksheetFilePointer, '</sheetData>');
+
+        $this->writeMergeXml($worksheet,$worksheetFilePointer);
+        $this->writeColumnWidthXml($worksheet,$worksheetFilePointer);
+
         \fwrite($worksheetFilePointer, '</worksheet>');
         \fclose($worksheetFilePointer);
+    }
+
+    public function merge(Worksheet $worksheet,$start,$end)
+    {
+        $sheetIndex = $worksheet->getId() - 1;
+        $this->merge[$sheetIndex][$start] = $end;
+    }
+
+    public function setColumnWidth(Worksheet $worksheet,$column,$width)
+    {
+        $sheetIndex = $worksheet->getId() - 1;
+        $this->columnWidth[$sheetIndex][$column] = $width;
+    }
+
+    public function writeMergeXml(Worksheet $worksheet,$worksheetFilePointer) {
+        $sheetIndex = $worksheet->getId() - 1;
+        $xml = '';
+        if(isset($this->merge[$sheetIndex])) {
+            $xml .= '<mergeCells count="'. count($this->merge[$sheetIndex]) .'">';
+            foreach($this->merge[$sheetIndex] as $start=>$end) {
+                $xml .= '<mergeCell ref="'. $start .':'. $end .'"/>';
+            }
+            $xml .= '</mergeCells>';
+        }
+
+        if($xml) {
+            \fwrite($worksheetFilePointer, $xml);
+        }
+    }
+
+    public function writeColumnWidthXml(Worksheet $worksheet,$worksheetFilePointer) {
+        $sheetIndex = $worksheet->getId() - 1;
+
+        $xml = '';
+        if(isset($this->columnWidth[$sheetIndex])) {
+            $xml .= '<cols>';
+            foreach($this->columnWidth[$sheetIndex] as $column => $width) {
+                $index = CellHelper::getIndexByColumn($column);
+                $xml .= '<col customWidth="20" min="'. $index .'" max="'. $index .'" width="'. $width .'"/>';
+            }
+            $xml .= '</cols>';
+        }
+
+        if($xml) {
+            \fwrite($worksheetFilePointer, $xml);
+        }
     }
 }

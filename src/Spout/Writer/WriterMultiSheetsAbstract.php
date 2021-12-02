@@ -166,4 +166,20 @@ abstract class WriterMultiSheetsAbstract extends WriterAbstract
             $this->workbookManager->close($this->filePointer);
         }
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function addMergeToWriter($start,$end) {
+        $this->throwIfWorkbookIsNotAvailable();
+        $this->workbookManager->merge($start,$end);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function addColumnWidthToWriter($column,$width) {
+        $this->throwIfWorkbookIsNotAvailable();
+        $this->workbookManager->setColumnWidth($column,$width);
+    }
 }

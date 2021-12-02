@@ -68,4 +68,18 @@ interface WriterInterface
      * @return void
      */
     public function close();
+
+    /* @desc merge two cells
+     * @param string $start the beginning cell, e.g. A1
+     * @param string $end the ending cell, e.g. B2
+     * @return $this
+     */
+    public function merge($start,$end);
+
+    /* @desc set column's width
+     * @param string $colmun the column name, e.g. A
+     * @param number $width column's width, e.g. 100
+     * @return $this
+     */
+    public function setColumnWidth($colmun,$width);
 }
